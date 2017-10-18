@@ -55,7 +55,12 @@ http://www.dongfeng-citroen.com.cn/4s/index.php/api/getCarSeries?t=1508080158481
 http://www.dongfeng-citroen.com.cn/4s/index.php/api/getCarModel?t=1508080698845
 
 雪佛兰
+<<<<<<< HEAD
+# http://www.mychevy.com.cn/images/files/indexmap.txt
+http://www.mychevy.com.cn/images/files/city.txt
+=======
 
+>>>>>>> f98f39e41c14b43e1caa74b4bee93679fac53984
 
 # 东风标致
 

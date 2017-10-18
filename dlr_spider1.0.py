@@ -389,10 +389,14 @@ class DfcitroenSpider(DykmcSpider):
 class ChevroletSpider(DykmcSpider):
 
     def prase_request(self):
-        pass
-
-#     def prase_data(self):
-#         pass
+        dlr_dict = {}
+        r = requests.get(self.js_url)
+        dlr_list = json.loads(bytes.decode(r.content))
+        for dlr in dlr_list:
+            key = dlr['code']
+            value = dlr
+            dlr_dict[key] = value
+        return dlr_dict
 
 
 # class SvmSpider(DykmcSpider):
@@ -482,13 +486,13 @@ if __name__ == '__main__':
     # dfcitroen.get_data()
     # dfcitroen.export_data()
     #
-    chevrolet_url = ''  # 雪佛兰
+    chevrolet_url = 'http://www.mychevy.com.cn/images/files/indexmap.txt'  # 雪佛兰
     chevrolet = ChevroletSpider('chevrolet', chevrolet_url)
     print(chevrolet.js_url)
     print(chevrolet.domain)
     chevrolet.get_data()
     chevrolet.export_data()
-    #
+
     # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 东风标致
     # buick = BuickSpider('buick', buick_url)
     # print(buick.js_url)
