@@ -399,7 +399,97 @@ class ChevroletSpider(DykmcSpider):
         return dlr_dict
 
 
-# class SvmSpider(DykmcSpider):
+class PeugeotSpider(DykmcSpider):
+
+    def prase_request(self):
+        pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
+#
+#     def prase_request(self):
+#         pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
+#
+#     def prase_request(self):
+#         pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
+#
+#     def prase_request(self):
+#         pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
+#
+#     def prase_request(self):
+#         pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
+#
+#     def prase_request(self):
+#         pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
+#
+#     def prase_request(self):
+#         pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
+#
+#     def prase_request(self):
+#         pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
+#
+#     def prase_request(self):
+#         pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
+#
+#     def prase_request(self):
+#         pass
+
+#     def prase_data(self):
+#         pass
+
+
+# class PeugeotSpider(DykmcSpider):
 #
 #     def prase_request(self):
 #         pass
@@ -488,17 +578,17 @@ if __name__ == '__main__':
     #
     chevrolet_url = 'http://www.mychevy.com.cn/images/files/indexmap.txt'  # 雪佛兰
     chevrolet = ChevroletSpider('chevrolet', chevrolet_url)
-    print(chevrolet.js_url)
-    print(chevrolet.domain)
-    chevrolet.get_data()
-    chevrolet.export_data()
+    # print(chevrolet.js_url)
+    # print(chevrolet.domain)
+    # chevrolet.get_data()
+    # chevrolet.export_data()
 
-    # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 东风标致
-    # buick = BuickSpider('buick', buick_url)
-    # print(buick.js_url)
-    # print(buick.domain)
-    # buick.get_data()
-    # buick.export_data()
+    peugeot_url = 'http://www.peugeot.com.cn/api/dealer.aspx'  # 东风标致
+    peugeot = PeugeotSpider('peugeot', peugeot_url)
+    print(peugeot.js_url)
+    print(peugeot.domain)
+    peugeot.get_data()
+    peugeot.export_data()
     #
     # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 广汽丰田
     # buick = BuickSpider('buick', buick_url)
