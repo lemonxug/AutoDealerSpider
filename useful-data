@@ -1,0 +1,89 @@
+获取经销商信息：
+
+DYK
+dyk
+# http://www.dyk.com.cn/public/dyk/js/allDealersData.js
+
+北京现代
+hyundai
+https://www.beijing-hyundai.com.cn/datacenter/static/js/Province.js
+https://www.beijing-hyundai.com.cn/datacenter/static/js/City.js
+# https://www.beijing-hyundai.com.cn/datacenter/static/js/District.js
+
+别克
+buick
+# http://www.buick.com.cn/api/dealer.aspx
+
+上海大众
+svm
+# http://club.svw-volkswagen.com/map/latlng.xml
+
+一汽大众
+vm
+# http://contact.faw-vw.com/uploadfiles/js/dealer.js
+http://brand.vw.com.cn/stage-dealersearch/cl1/menu.asp
+post data ：did	100315
+
+东风日产
+nissan
+# https://www.dongfeng-nissan.com.cn/Ajax/AjaxSupport.ashx?method=ProvinceFilter&Series=46C5BE23-4FB7-476A-91C7-50BA7250274F&Brand=1
+# https://www.dongfeng-nissan.com.cn/Ajax/AjaxSupport.ashx?method=CityFilter&ProvinceID=4bbb4d40-fb29-4004-8938-ecc4d028caa4&Series=46C5BE23-4FB7-476A-91C7-50BA7250274F&Brand=1
+# https://www.dongfeng-nissan.com.cn/Ajax/AjaxSupport.ashx
+# https://www.dongfeng-nissan.com.cn/Ajax/AjaxSupport.ashx?method=SeriesForOnline_new&Brand=1
+# https://www.dongfeng-nissan.com.cn/Ajax/AjaxSupport.ashx?method=LoadDealerData&brand=1&selpro=4bbb4d40-fb29-4004-8938-ecc4d028caa4&selcity=c97ab985-5a52-4483-af1d-ec5df3bbe752&selseries=
+
+广汽本田
+# http://www.ghac.cn/js/Official/staticData/p_c_dealers_data.js
+
+长城汽车
+gwm
+# http://www.gwm.com.cn/statics/gwm-cn/js/map/dealersShop.js
+http://www.haval.com.cn/dealer/js/carModel.js
+
+一汽丰田
+# http://www.ftms.com.cn/
+http://www.ftms.com.cn/app/dealer/province
+http://www.ftms.com.cn/app/dealer/city_stro?province=%E6%B1%9F%E8%8B%8F%E7%9C%81
+
+东风雪铁龙
+http://www.dongfeng-citroen.com.cn/4s/index.php/dsearch
+http://www.dongfeng-citroen.com.cn/4s/index.php/api/getCityIdByName?t=1508080159296
+http://www.dongfeng-citroen.com.cn/4s/index.php/api/getCities/14?t=1508080735703
+http://www.dongfeng-citroen.com.cn/4s/index.php/api/getCities/3?t=1508080668775
+http://www.dongfeng-citroen.com.cn/4s/index.php/api/getDealersByLocation?t=1508080738925 post city ：cityid
+http://www.dongfeng-citroen.com.cn/4s/index.php/api/getCarSeries?t=1508080158481
+http://www.dongfeng-citroen.com.cn/4s/index.php/api/getCarModel?t=1508080698845
+
+雪佛兰
+
+
+# 东风标致
+
+广汽丰田
+
+吉利汽车
+geely
+http://mall.geely.com/index.php/dealer/change_resion/410000
+http://mall.geely.com/index.php/dealer/jxs_resion/411600/0
+http://mall.geely.com/index.php/dealer/dealer_resion_map?cid=411600&carx=0&kw=
+http://mall.geely.com/index.php/dealer/dealer_resion_map?cid=320100&carx=0&kw=
+
+斯柯达
+
+长安福特
+
+长安汽车
+
+上海通用
+
+神龙汽车
+
+比亚迪
+
+东风本田
+
+其他
+
+ds
+# http://www.ds.com.cn/web/cn/api/dealers?lang=cn&type=3
+
