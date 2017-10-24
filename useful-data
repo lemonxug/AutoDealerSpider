@@ -1,3 +1,5 @@
+爬取字段：省份	地市	县区	品牌	名称	地址	坐标
+
 获取经销商信息：
 
 DYK
@@ -63,8 +65,14 @@ http://www.mychevy.com.cn/images/files/city.txt
 # http://dealer.peugeot.com.cn/
 
 
-
 广汽丰田
+# http://www.gac-toyota.com/
+https://www.gac-toyota.com.cn/buy/shopping/dealer-search
+https://www.gac-toyota.com.cn/Ajax/CommonHandler.ashx?method=GetProvinceCityByName&Province=%E6%B1%9F%E8%8B%8F%E7%9C%81&city=%E7%9B%90%E5%9F%8E%E5%B8%82
+https://www.gac-toyota.com.cn/Ajax/DealerHandler.ashx?method=GetDealerDetailByCity&cityId=064001001&keyWord=&dealerCode=
+https://www.gac-toyota.com.cn/Ajax/CommonHandler.ashx?method=City&ProvinceID=064001
+https://www.gac-toyota.com.cn/js/toyota/ProvinceCityDealer.js
+
 
 吉利汽车
 geely

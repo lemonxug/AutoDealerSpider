@@ -404,17 +404,45 @@ class PeugeotSpider(DykmcSpider):
     def prase_request(self):
         pass
 
-#     def prase_data(self):
-#         pass
+    def prase_data(self):
+        pass
 
 
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
+class GactoyotaSpider(DykmcSpider):
 
-#     def prase_data(self):
-#         pass
+    def prase_request(self):
+        dlr_dict={}
+        province_dict={}
+        city_dict={}
+        r = requests.get(self.js_url+'/buy/shopping/dealer-search')
+        soup = BeautifulSoup(r.content, 'lxml')
+        # print(soup.find(id="ddlProvince").contents)
+        for option in soup.find(id="ddlProvince").contents:
+            if option.string !=  '\n':
+
+            #     print(option['value'])
+                province = {}
+                key = option['value']
+                value = option.string
+                province['value'] = key
+                province['name'] = value
+                province_dict[key] = province
+        for key in province_dict.keys():
+            r = requests.get(self.js_url+\
+                             '/Ajax/CommonHandler.ashx?method=City&ProvinceID='+key)
+            for city in json.loads(bytes.decode(r.content)):
+                key = city['Code']
+                value = city
+                city_dict[key] = value
+        for key in city_dict.keys():
+            r = requests.get(self.js_url+\
+                             '/Ajax/DealerHandler.ashx?method=GetDealerDetailByCity&cityId='\
+                             +key+'&keyWord=&dealerCode=')
+            for dlr in json.loads(bytes.decode(r.content)):
+                key = dlr['DealerCode']
+                dlr_dict[key] = dlr
+        return dlr_dict
+
 
 
 # class PeugeotSpider(DykmcSpider):
@@ -583,19 +611,20 @@ if __name__ == '__main__':
     # chevrolet.get_data()
     # chevrolet.export_data()
 
+    # 跳过
     peugeot_url = 'http://www.peugeot.com.cn/api/dealer.aspx'  # 东风标致
     peugeot = PeugeotSpider('peugeot', peugeot_url)
-    print(peugeot.js_url)
-    print(peugeot.domain)
-    peugeot.get_data()
-    peugeot.export_data()
-    #
-    # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 广汽丰田
-    # buick = BuickSpider('buick', buick_url)
-    # print(buick.js_url)
-    # print(buick.domain)
-    # buick.get_data()
-    # buick.export_data()
+    # print(peugeot.js_url)
+    # print(peugeot.domain)
+    # peugeot.get_data()
+    # peugeot.export_data()
+
+    gactoyota_url = 'https://www.gac-toyota.com.cn'  # 广汽丰田
+    gactoyota = GactoyotaSpider('gactoyota', gactoyota_url)
+    print(gactoyota.js_url)
+    print(gactoyota.domain)
+    gactoyota.get_data()
+    gactoyota.export_data()
     #
     # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 吉利汽车
     # buick = BuickSpider('buick', buick_url)
