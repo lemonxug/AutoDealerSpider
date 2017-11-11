@@ -5,6 +5,7 @@ import csv
 import requests
 import os
 from bs4 import BeautifulSoup
+import re
 import xml.etree.ElementTree as ET   # 解析XML文件
 import xml.dom.minidom   # 解析XML文件
 
@@ -444,86 +445,144 @@ class GactoyotaSpider(DykmcSpider):
         return dlr_dict
 
 
+class GeelySpider(DykmcSpider):
 
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
-
-#     def prase_data(self):
-#         pass
-
-
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
-
-#     def prase_data(self):
-#         pass
-
-
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
-
-#     def prase_data(self):
-#         pass
-
-
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
-
-#     def prase_data(self):
-#         pass
-
-
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
-
-#     def prase_data(self):
-#         pass
+    def prase_request(self):
+        carxid_dict = {}
+        province_dict = {}
+        city_dict = {}
+        dlr_dict = {}
+        r = requests.get(self.js_url+'/network')
+        soup = BeautifulSoup(r.content, 'lxml')
+        for option in soup.find(id='sel_region'):
+            if option.string != '\n':
+                # print(option.string)
+                province = {}
+                key = option['value']
+                value = option.string
+                province['value'] = key
+                province['name'] = value
+                province_dict[key] = province
+        for key in province_dict.keys():
+            r = requests.get('http://mall.geely.com/index.php/dealer/change_resion/'+key)
+            soup =  BeautifulSoup(r.content, 'lxml')
+            for op in soup.find_all('option'):
+                key = op['value']
+                value = op.string
+                # print(key,value)
+                city = {}
+                city['code'] = key
+                city['name'] = value
+                city_dict[key] = city
+        for key in city_dict.keys():
+            r = requests.get('http://mall.geely.com/index.php/dealer/dealer_resion_map?cid='+key+'&carx=0&kw=')
+            for dlr in json.loads(bytes.decode(r.content))['data']:
+                key = dlr['id']
+                dlr_dict[key] = dlr
+        return dlr_dict
 
 
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
+class SkodaSpider(DykmcSpider):
 
-#     def prase_data(self):
-#         pass
+    def prase_request(self):
+        dlr_dict = {}
+        r = requests.get(self.js_url)
+        data = bytes.decode(r.content)
+        p1 = re.compile('window.DEALERS_DATA.\w* = ')
+        m1 = p1.split(data)
+        # nrssc : 分销中心\r\nprovince : 省份\r\ncity : 城市\r\ndistrict : 区县\r\ndealer : 经销商
+        nrssc = json.loads(m1[1].strip()[:-1])
+        province = json.loads(m1[2].strip()[:-1])
+        city = json.loads(m1[3].strip()[:-1])
+        district = json.loads(m1[4].strip()[:-1])
+        dealer = json.loads(m1[5].strip()[:-1])
+        # xy = json.loads(m1[6].strip()[:-1])
+        # print(dealer['columnCount'])
+        # print(dealer['columnNames'])
+        columns = ['code', 'name', 'rssc_code', 'province_code', 'city_code',
+        'district_code', 'phone', 'fax', 'email', 'address', 'service_tel', 'hot_line']
+        for item in dealer['data']:
+            dlr = {}
+            for x, y in zip(columns, item):
+                dlr[x] = y
+            print(dlr)
+            key = item[0]
+            dlr_dict[key] = dlr
+        return dlr_dict
 
 
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
+class FordSpider(DykmcSpider):   # 待定
 
-#     def prase_data(self):
-#         pass
+    def prase_request(self):
+        pass
 
-
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
-
-#     def prase_data(self):
-#         pass
+    def prase_data(self):
+        pass
 
 
-# class PeugeotSpider(DykmcSpider):
-#
-#     def prase_request(self):
-#         pass
+class ChanganSpider(DykmcSpider):   # 待定
 
-#     def prase_data(self):
-#         pass
+    def prase_request(self):
+        pass
+
+    def prase_data(self):
+        pass
+
+
+class BydSpider(DykmcSpider):
+
+    def prase_request(self):
+        dlr_dict = {}
+        r = requests.get(self.js_url)
+        soup = BeautifulSoup(r.content, 'lxml')
+        car_dict = {}
+        for op in soup.find(id='carid'):
+            car = {}
+            if op.string != '\n':
+                if op['value'] != '0':
+                    key = op['value']
+                    car['id'] = key
+                    car['name'] = op.string
+                    car_dict[key] = car
+        for k in car_dict.keys():
+            postdata = {'carid': k}
+            r = requests.post('http://www.bydauto.com.cn/ajax.php?act=getpro&inajax=1',data=postdata)
+            soup = BeautifulSoup(r.content, 'lxml')
+            for op1 in soup.find_all('option'):
+                postdata = {'pid': op1.string, 'carid' : k}
+                r = requests.post('http://www.bydauto.com.cn/ajax.php?act=getcity&inajax=1', data = postdata)
+                soup = BeautifulSoup(r.content, 'lxml')
+                try:
+                    for op2 in soup.find_all('option'):
+                        postdata = {'showtype':'json','cid':op2.string,'carid':k}
+                        r = requests.post('http://www.bydauto.com.cn/ajax.php?act=getsellpoint&inajax=1', data=postdata)
+                        for dlr in json.loads(bytes.decode(r.content)):
+                            key = dlr['id']
+                            dlr_dict[key] = dlr
+                except:
+                    print(k, op1.string)
+        return dlr_dict
+        # print(car_dict)
+
+    def prase_data(self):
+        dlr_list = []
+        data = self.get_data()
+        data['1775']['phone'] = data['1775']['phone'].replace('\xa0', '')
+        data['1966']['address'] = data['1966']['address'].replace('\xa0', '')
+        data['1929']['address'] = data['1929']['address'].replace('\xa0', '')
+        for dlr in data.values():
+            dlr_list.append(dlr)
+        return dlr_list
+
+
+class HondaSpider(DykmcSpider):   # 官网没有数据
+
+    def prase_request(self):
+        pass
+
+    def prase_data(self):
+        pass
+
 
 if __name__ == '__main__':
     dyk_url = 'http://www.dyk.com.cn/public/dyk/js/allDealersData.js'
@@ -612,7 +671,7 @@ if __name__ == '__main__':
     # chevrolet.export_data()
 
     # 跳过
-    peugeot_url = 'http://www.peugeot.com.cn/api/dealer.aspx'  # 东风标致
+    peugeot_url = 'http://www.peugeot.com.cn/api/dealer.aspx'  # 东风标致 - 跳过
     peugeot = PeugeotSpider('peugeot', peugeot_url)
     # print(peugeot.js_url)
     # print(peugeot.domain)
@@ -621,39 +680,39 @@ if __name__ == '__main__':
 
     gactoyota_url = 'https://www.gac-toyota.com.cn'  # 广汽丰田
     gactoyota = GactoyotaSpider('gactoyota', gactoyota_url)
-    print(gactoyota.js_url)
-    print(gactoyota.domain)
-    gactoyota.get_data()
-    gactoyota.export_data()
-    #
-    # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 吉利汽车
-    # buick = BuickSpider('buick', buick_url)
-    # print(buick.js_url)
-    # print(buick.domain)
-    # buick.get_data()
-    # buick.export_data()
-    #
-    # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 斯柯达
-    # buick = BuickSpider('buick', buick_url)
-    # print(buick.js_url)
-    # print(buick.domain)
-    # buick.get_data()
-    # buick.export_data()
-    #
-    # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 长安福特
-    # buick = BuickSpider('buick', buick_url)
-    # print(buick.js_url)
-    # print(buick.domain)
-    # buick.get_data()
-    # buick.export_data()
-    #
-    # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 长安汽车
-    # buick = BuickSpider('buick', buick_url)
-    # print(buick.js_url)
-    # print(buick.domain)
-    # buick.get_data()
-    # buick.export_data()
-    #
+    # print(gactoyota.js_url)
+    # print(gactoyota.domain)
+    # gactoyota.get_data()
+    # gactoyota.export_data()
+
+    geely_url = 'http://mall.geely.com/index.php'  # 吉利汽车
+    geely = GeelySpider('geely', geely_url)
+    # print(geely.js_url)
+    # print(geely.domain)
+    # geely.get_data()
+    # geely.export_data()
+
+    skoda_url = 'http://www.skoda.com.cn/assets/js/apps/dealerdata.js'  # 斯柯达
+    skoda = SkodaSpider('skoda', skoda_url)
+    # print(skoda.js_url)
+    # print(skoda.domain)
+    # skoda.get_data()
+    # skoda.export_data()
+
+    ford_url = 'http://www.ford.com.cn/api/dealer.aspx'  # 长安福特  - 跳过
+    ford = FordSpider('ford', ford_url)
+    # print(ford.js_url)
+    # print(ford.domain)
+    # ford.get_data()
+    # ford.export_data()
+
+    changan_url = 'http://www.changan.com.cn/api/dealer.aspx'  # 长安汽车
+    changan = ChanganSpider('changan', changan_url)
+    print(changan.js_url)
+    print(changan.domain)
+    # changan.get_data()
+    # changan.export_data()
+
     # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 上汽通用
     # buick = BuickSpider('buick', buick_url)
     # print(buick.js_url)
@@ -668,19 +727,19 @@ if __name__ == '__main__':
     # buick.get_data()
     # buick.export_data()
     #
-    # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 比亚迪
-    # buick = BuickSpider('buick', buick_url)
-    # print(buick.js_url)
-    # print(buick.domain)
-    # buick.get_data()
-    # buick.export_data()
+    byd_url = 'http://www.bydauto.com.cn/counter-sellpoint.html'  # 比亚迪
+    byd = BydSpider('byd', byd_url)
+    print(byd.js_url)
+    print(byd.domain)
+    byd.get_data()
+    byd.export_data()
     #
-    # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 东风本田
-    # buick = BuickSpider('buick', buick_url)
-    # print(buick.js_url)
-    # print(buick.domain)
-    # buick.get_data()
-    # buick.export_data()
+    honda_url = 'http://www.honda.com.cn/api/dealer.aspx'  # 东风本田  # 跳过，页面是静态的，没有经销商信息
+    honda = HondaSpider('honda', honda_url)
+    print(honda.js_url)
+    print(honda.domain)
+    # honda.get_data()
+    # honda.export_data()
     #
     # buick_url = 'http://www.buick.com.cn/api/dealer.aspx'  # 其他
     # buick = BuickSpider('buick', buick_url)

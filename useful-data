@@ -34,7 +34,7 @@ nissan
 # https://www.dongfeng-nissan.com.cn/Ajax/AjaxSupport.ashx?method=SeriesForOnline_new&Brand=1
 # https://www.dongfeng-nissan.com.cn/Ajax/AjaxSupport.ashx?method=LoadDealerData&brand=1&selpro=4bbb4d40-fb29-4004-8938-ecc4d028caa4&selcity=c97ab985-5a52-4483-af1d-ec5df3bbe752&selseries=
 
-广汽本田
+广汽本田  ghac
 # http://www.ghac.cn/js/Official/staticData/p_c_dealers_data.js
 
 长城汽车
@@ -76,24 +76,59 @@ https://www.gac-toyota.com.cn/js/toyota/ProvinceCityDealer.js
 
 吉利汽车
 geely
+http://mall.geely.com/index.php/network
 http://mall.geely.com/index.php/dealer/change_resion/410000
 http://mall.geely.com/index.php/dealer/jxs_resion/411600/0
 http://mall.geely.com/index.php/dealer/dealer_resion_map?cid=411600&carx=0&kw=
 http://mall.geely.com/index.php/dealer/dealer_resion_map?cid=320100&carx=0&kw=
 
-斯柯达
+斯柯达 skoda
+http://www.skoda.com.cn/finddealer/index.html
+http://www.skoda.com.cn/assets/js/apps/dealerdata.js # 咋解析啊？？？ 正则
 
-长安福特
+长安福特 ford
+/content/ford/cn/zh_cn/configuration/application-and-services-config/vehicle-list.dropdown.data
+/content/ford/cn/zh_cn/configuration/application-and-services-config/provinceCityDropDowns.multiFieldDropdown.data
 
-长安汽车
+https://www.ford.com.cn/locate-a-dealer/
+https://restapi.amap.com/v3/geocode/geo
+?key=1891d0f847c0a210a88015fdd4c3bc46&s=rsv3&callback=jsonp_232
+&platform=JS&logversion=2.0&sdkversion=1.3&appname
+=http://www.ford.com.cn/dealer/locator?
+intcmp=hp-return-fd&csid=D6C889F7-2FF1-4EA5-8D60-494D42872518&address=%E9%87%8D%E5%BA%86%E9%87%8D%E5%BA%86
+&callback=jsonp_232&_=1510383274081
 
-上海通用
+https://yuntuapi.amap.com/datasearch/around
+?s=rsv3&key=1891d0f847c0a210a88015fdd4c3bc46&extensions=base&language=en&enc=utf-8&output=jsonp
+&sortrule=_distance:1&keywords=&limit=100&tableid=55adb0c7e4b0a76fce4c8dd6&radius=35000&callback=jsonp_333
+&platform=JS&logversion=2.0&sdkversion=1.3&appname
+=http://www.ford.com.cn/dealer/locator
+?intcmp=hp-return-fd&csid=C0F2C0C7-D2A2-4730-9618-5B2C060C3DDD
+&center=106.551556,29.563009&filter=AdministrativeArea:%E9%87%8D%E5%BA%86%20Locality:%E9%87%8D%E5%BA%86
+&callback=jsonp_333&_=1510383274082
 
-神龙汽车
 
-比亚迪
+长安汽车 changan
+http://www.changan.com.cn/purchase/cx/
+http://www.changan.com.cn/api/car.php
+http://www.changan.com.cn/api.php?op=dealer&act=get_province_list&brand=1&carseries=S401
+http://www.changan.com.cn/api.php?op=dealer&act=get_city_list&province=110000&brand=1&carseries=S401
+http://www.changan.com.cn/api.php?op=dealer&act=get_dist_list&city=110100&brand=1
+http://www.changan.com.cn/api.php?op=querysale  POST
 
-东风本田
+上海通用  别克，雪佛兰，凯迪拉克
+
+神龙汽车 东风雪铁龙，东风标致
+
+比亚迪 byd
+http://www.bydauto.com.cn/counter-sellpoint.html
+http://www.bydauto.com.cn/ajax.php?act=getpro&inajax=1
+http://www.bydauto.com.cn/ajax.php?act=getcity&inajax=1
+http://www.bydauto.com.cn/ajax.php?act=getsellpoint&inajax=1
+
+东风本田 honda
+http://www.dongfeng-honda.com/dot_query.shtml  假页面，不能查询网点
+
 
 其他
 
