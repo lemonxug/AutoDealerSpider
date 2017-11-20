@@ -544,21 +544,25 @@ class FordSpider(DykmcSpider):   # 待定 doing-1
                       # +'&callback=jsonp_333&_='\
                       # +'1510383274082'
                 # print(url)
-                # # url = parse.quote(url)
-                try:
-                    r = requests.get(url)
+                # r = requests.get(url)
                 # print(r.content)
-                    tmp = json.loads(bytes.decode(r.content)[10:-1])
-                    for d in tmp['data']:
-                        dlr = {}
-                        key = d['_id']
-                        dlr[key] = d
-                        dlr_dict[key] = dlr
-                except:
-                    pass
+
+                r = requests.get(url)
+            # print(r.content)
+                tmp = json.loads(bytes.decode(r.content)[10:-1])
+                print(tmp)
+                for d in tmp['datas']:
+                    key = d['_id']
+                    dlr_dict[key] = d
         return dlr_dict
-    def prase_data(self):
-        pass
+
+    # def prase_data(self):
+    #     dlr_list = []
+    #     data = self.get_data()
+    #     for d in data.values():
+    #         print(d)
+    #         dlr_list.append(d.values()[0])
+
 
 
 class ChanganSpider(DykmcSpider):   # 待定
@@ -745,7 +749,7 @@ if __name__ == '__main__':
     print(ford.js_url)
     print(ford.domain)
     ford.get_data()
-    # ford.export_data()
+    ford.export_data()
 
     changan_url = 'http://www.changan.com.cn/api/dealer.aspx'  # 长安汽车
     changan = ChanganSpider('changan', changan_url)
