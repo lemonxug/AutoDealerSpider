@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import re
 import xml.etree.ElementTree as ET   # 解析XML文件
 import xml.dom.minidom   # 解析XML文件
+from urllib import parse
 
 
 class DykmcSpider(object):
@@ -511,11 +512,51 @@ class SkodaSpider(DykmcSpider):
         return dlr_dict
 
 
-class FordSpider(DykmcSpider):   # 待定
+class FordSpider(DykmcSpider):   # 待定 doing-1
 
     def prase_request(self):
-        pass
-
+        province_dict = {}
+        dlr_dict = {}
+        url = 'https://www.ford.com.cn/content/ford/cn/zh_cn/configuration/application-and-services-config/provinceCityDropDowns.multiFieldDropdown.data'
+        r = requests.get(url)
+        # print(r.content)
+        province_list = json.loads(bytes.decode(r.content))
+        for p  in province_list:
+            # print(p['provinceKey'])
+            for c in p['cityList']:
+                # file_url = parse.quote(data['Entity'][5:])
+                # 获取中心经纬度
+                url = 'https://restapi.amap.com/v3/geocode/geo?key=1891d0f847c0a210a88015fdd4c3bc46&s=rsv3&callback=jsonp_232&platform=JS&logversion=2.0&sdkversion=1.3&appname=http://www.ford.com.cn/dealer/locator?intcmp=hp-return-fd&csid=D6C889F7-2FF1-4EA5-8D60-494D42872518&'+\
+                      'address='+ parse.quote(p['provinceKey'])+\
+                      parse.quote(c['cityKey'])\
+                      # +'&callback=jsonp_232&_=1510383274081'
+                r = requests.get(url)
+                # print(r.content)
+                tmp = json.loads(bytes.decode(r.content)[10:-1])
+                # print(tmp)
+                # print(tmp['geocodes'][0]['location'])
+                url = 'https://yuntuapi.amap.com/datasearch/around?s=rsv3&key=1891d0f847c0a210a88015fdd4c3bc46&extensions=base&language=en&enc=utf-8&output=jsonp&sortrule=_distance:1&keywords=&limit=100&tableid=55adb0c7e4b0a76fce4c8dd6&radius=35000&callback=jsonp_333&platform=JS&logversion=2.0&sdkversion=1.3&appname=http://www.ford.com.cn/dealer/locator?intcmp=hp-return-fd&csid=C0F2C0C7-D2A2-4730-9618-5B2C060C3DDD&'+\
+                      'center='+tmp['geocodes'][0]['location']+\
+                      '&filter=AdministrativeArea:'\
+                      +parse.quote(p['provinceKey'])\
+                      +' Locality:'\
+                      +parse.quote(c['cityKey'])
+                      # +'&callback=jsonp_333&_='\
+                      # +'1510383274082'
+                # print(url)
+                # # url = parse.quote(url)
+                try:
+                    r = requests.get(url)
+                # print(r.content)
+                    tmp = json.loads(bytes.decode(r.content)[10:-1])
+                    for d in tmp['data']:
+                        dlr = {}
+                        key = d['_id']
+                        dlr[key] = d
+                        dlr_dict[key] = dlr
+                except:
+                    pass
+        return dlr_dict
     def prase_data(self):
         pass
 
@@ -699,17 +740,17 @@ if __name__ == '__main__':
     # skoda.get_data()
     # skoda.export_data()
 
-    ford_url = 'http://www.ford.com.cn/api/dealer.aspx'  # 长安福特  - 跳过
+    ford_url = 'http://www.ford.com.cn/api/dealer.aspx'  # 长安福特  - 跳过  -doing
     ford = FordSpider('ford', ford_url)
-    # print(ford.js_url)
-    # print(ford.domain)
-    # ford.get_data()
+    print(ford.js_url)
+    print(ford.domain)
+    ford.get_data()
     # ford.export_data()
 
     changan_url = 'http://www.changan.com.cn/api/dealer.aspx'  # 长安汽车
     changan = ChanganSpider('changan', changan_url)
-    print(changan.js_url)
-    print(changan.domain)
+    # print(changan.js_url)
+    # print(changan.domain)
     # changan.get_data()
     # changan.export_data()
 
@@ -729,15 +770,15 @@ if __name__ == '__main__':
     #
     byd_url = 'http://www.bydauto.com.cn/counter-sellpoint.html'  # 比亚迪
     byd = BydSpider('byd', byd_url)
-    print(byd.js_url)
-    print(byd.domain)
-    byd.get_data()
-    byd.export_data()
+    # print(byd.js_url)
+    # print(byd.domain)
+    # byd.get_data()
+    # byd.export_data()
     #
-    honda_url = 'http://www.honda.com.cn/api/dealer.aspx'  # 东风本田  # 跳过，页面是静态的，没有经销商信息
+    honda_url = 'http://www.honda.com.cn/api/dealer.aspx'   # 东风本田  # 跳过，页面是静态的，没有经销商信息
     honda = HondaSpider('honda', honda_url)
-    print(honda.js_url)
-    print(honda.domain)
+    # print(honda.js_url)
+    # print(honda.domain)
     # honda.get_data()
     # honda.export_data()
     #
