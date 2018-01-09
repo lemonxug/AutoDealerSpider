@@ -71,14 +71,18 @@ def get_brand_list(citycode):
     }
     r = requests.get(abc_url, params=params1)
     abc_list = json.loads(bytes.decode(r.content))
+    brand_list =[]
     for character in abc_list:
         params2 = {
         'cityCode' : citycode ,
         'alphabet' : character
         }
         r = requests.get(brand_url, params=params2)
-        brand_list = json.loads(bytes.decode(r.content))
-        return brand_list
+        tmp = json.loads(bytes.decode(r.content))
+        # print(tmp)
+        brand_list.extend(tmp)
+    # print(brand_list)
+    return brand_list
 
 
 def get_proxy(url):
@@ -118,16 +122,26 @@ if __name__ == "__main__":
     count = 1
     for citycode in city_dict.keys():
         brand_list = get_brand_list(citycode)
-        for brand in brand_list: #  brand['id'], brand['name']
-            brand_dict[brand['id']]=brand['name']
-            r = get_dlrinfo_html(citycode, brand['id'],)
-            tmp = prase_dlr_info(r, brand['id'])
-            dealer_list.extend(tmp)
-            count += 1
-        if  count % 10 == 0:
-            print(len(dealer_list))
-            time.sleep(10)
-            
+        # print(citycode, brand_list)
+        try:
+            for brand in brand_list: #  brand['id'], brand['name']
+                brand_dict[brand['id']]=brand['name']
+                # try:
+                    # with open('log-all', 'a') as f:
+                    #     f.write(citycode+","+ city_dict[citycode]+','+brand['id']+','+brand['name']+'\n')
+                r = get_dlrinfo_html(citycode, brand['id'],)
+                tmp = prase_dlr_info(r, brand['id'])
+                # for d in tmp:
+                #     f.write(str(d)+'\n')
+                dealer_list.extend(tmp)
+                count += 1
+                if  count % 10 == 0:
+                    print(len(dealer_list))
+                    time.sleep(10)
+        except:
+            with open('log', 'a') as f:
+                f.write(citycode+','+str(brand_list)+'\n')
+
     #  试试多线程，队列，明天去学习吧！！
     #     for brand in brand_list:
     #         brand_dict[brand['id']] = brand['name']
