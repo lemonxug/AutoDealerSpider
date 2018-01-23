@@ -184,6 +184,24 @@ http://www.bydauto.com.cn/ajax.php?act=getsellpoint&inajax=1
 http://www.dongfeng-honda.com/dot_query.shtml  假页面，不能查询网点
 
 
+东南汽车
+http://www.soueast-motor.com/content/index/12
+http://www.soueast-motor.com/content/getcityj  post
+http://www.soueast-motor.com/content/shaixuan  post
+
+江淮汽车
+http://www.jac.com.cn/jacweb/dealers/
+http://www.jac.com.cn/jacservice/searchdealers?city=%E5%94%90%E5%B1%B1%E5%B8%82&prince=%E6%B2%B3%E5%8C%97%E7%9C%81&type=3&jacmodel=%E7%91%9E%E9%A3%8EM6&jacbrand=%E7%91%9E%E9%A3%8E
+city=%E5%94%90%E5%B1%B1%E5%B8%82
+prince=%E6%B2%B3%E5%8C%97%E7%9C%81
+type=3
+jacmodel=%E7%91%9E%E9%A3%8EM6
+jacbrand=%E7%91%9E%E9%A3%8E
+
+http://www.jac.com.cn/r/cms/www/red/js/provinceandcity3.js
+东风风行
+
+
 其他
 
 ds

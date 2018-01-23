@@ -114,14 +114,20 @@ def get_brandlist(city):
         brandlist.append(brand)
         # time.sleep(10)
     c = 0
+    ts = []
     # print(len(brandlist))
     for brand in brandlist:
         c += 1
+        print(brand)
+        t = threading.Thread(target=get_district, args=(brand,))
+        t.start()
         if c % 3 == 0:
             print(count)
             time.sleep(2)
         # print(brand)
-        get_district(brand)
+        # get_district(brand)
+    for t in ts:
+        t.join()
 
     # print(len(brandlist))
     # return brandlist
@@ -156,14 +162,14 @@ def get_district(brand):
         # time.sleep(10)
     if len(districtlist) != 0:
 
-        # print(districtlist)
+        print(districtlist)
         for district in districtlist:
             lock.acquire()
             try:
                 get_dlrinfo(district)
                 # time.sleep(2)
             except:
-                print('')
+                print('error!!!')
             finally:
                 lock.release()
     # print(districtlist)
@@ -173,7 +179,7 @@ def get_district(brand):
 def get_dlrinfo(district):
     suburl = district['href']
     r = requests.get(url+suburl, headers=choice(headers),proxies=choice(proxies))
-
+    # print(r.content)
     html = etree.HTML(bytes.decode(r.content))
     for dlr in  html.xpath('//div[@class="row dealer-list"]'):
         dealer = {
@@ -181,7 +187,7 @@ def get_dlrinfo(district):
             'name': dlr.xpath('.//h6/a/text()')[0],
             'brand': district['brand'],
             'id':dlr.xpath('.//p[@class="tel"]/span[2]/@id')[0],
-            'address':dlr.xpath('.//p[@class="add"]/span/@title')[1],
+            'address':dlr.xpath('.//p[@class="add"]/span[2]/@title')[0],
             'district':district['name'],
             'city': district['city'],
             'province':district['province'],
@@ -189,16 +195,17 @@ def get_dlrinfo(district):
         }
         global count
         count += 1
-        # print(dealer)
+        print(dealer)
         dealer_list.append(dealer)
+        time.sleep(1)
 
-        with open('yiche-3.csv', 'a', newline='') as f:
-            w = csv.writer(f)
-            try:
-                print(dealer)
-                w.writerow(dealer.values())
-            except:
-                print("failed crawl ", dealer)
+        # with open('yiche-20180120.csv', 'a', newline='') as f:
+        #     w = csv.writer(f)
+        #     try:
+        #         print(dealer)
+        #         w.writerow(dealer.values())
+        #     except:
+        #         print("failed crawl ", dealer)
         # time.sleep(2)
 
 tmp = {'category': '4S店', 'name': '北京奥迪金港店', 'brand': '奥迪', 'id': '100040078', 'address': '北京市朝阳区金盏乡东苇路北京金港汽车公园...', 'district': '朝阳区', 'city': '北京市', 'province': '北京', 'brand-info': '进口Audi Sport,进口奥迪,一汽-大众奥迪'}
@@ -248,13 +255,14 @@ def main():
 
 
 if __name__ == '__main__':
-    with open('yiche-3.csv', 'a', newline='') as f :
+    with open('yiche-20180120.csv', 'a', newline='') as f :
         w = csv.writer(f)
         w.writerow(tmp.keys())
     start = time.time()
     # city = get_citylist()[0]
     # brand = get_brandlist(city)[0]
     # district = get_district(brand)[0]
+    # district = {'href': '/beijing-q110105/audi/?BizModes=0', 'name': '朝阳区', 'brand': '奥迪', 'city': '北京市', 'province': '北京'}
     # get_dlrinfo(district)
     main()
     end = time.time()

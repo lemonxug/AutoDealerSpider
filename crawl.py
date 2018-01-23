@@ -61,6 +61,17 @@ changan = ChanganSpider('长安汽车', 'changan', changan_url)
 byd_url = 'http://www.bydauto.com.cn/counter-sellpoint.html'  # 比亚迪
 byd = BydSpider('比亚迪', 'byd', byd_url)
 
+
+soueast_url = 'http://www.soueast-motor.com/content/index/12'  # 东南汽车
+soueast = SoueastSpider('东南汽车', 'soueast', soueast_url)
+
+jac_url = 'http://www.soueast-motor.com/content/index/12' # 江淮汽车
+jac = JacSpider('江淮汽车', 'jac', jac_url)
+
+# soueast_url = 'http://www.soueast-motor.com/content/index/12'  # 东风风行
+# soueast = SoueastSpider('东南汽车', 'soueast', soueast_url)
+
+
 # honda_url = 'http://www.honda.com.cn/api/dealer.aspx'   # 东风本田  # 跳过，页面是静态的，没有经销商信息
 # honda = HondaSpider('honda', honda_url)
 
@@ -72,10 +83,12 @@ spiders = [
 ]
 
 if __name__ == '__main__':
-    gwm.get_data()
-    gwm.export_data()
+    # gwm.get_data()
+    # gwm.export_data()
     # gactoyota.get_data()
     # gactoyota.export_data()
+    soueast.get_data()
+    soueast.export_data()
     # start = time.time()
     # threads = []
     # print(len(spiders))

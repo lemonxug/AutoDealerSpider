@@ -9,6 +9,7 @@ import re
 import xml.etree.ElementTree as ET
 from urllib import parse
 from lxml import etree
+from random import choice
 
 class DykmcSpider(object):
 
@@ -16,6 +17,41 @@ class DykmcSpider(object):
         self.domain = domain
         self.js_url = url
         self.name = name
+        self.USER_AGENT_LIST = [
+            'Mozilla/4.0 (compatible; MSIE 5.0; SunOS 5.10 sun4u; X11)',
+            'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Avant Browser;',
+            'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.1)',
+            'Microsoft Internet Explorer/4.0b1 (Windows 95)',
+            'Opera/8.00 (Windows NT 5.1; U; en)',
+            'Mozilla/4.0 (compatible; MSIE 5.0; AOL 4.0; Windows 95; c_athome)',
+            'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)',
+            'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
+            'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; ZoomSpider.net bot; .NET CLR 1.1.4322)',
+            'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; QihooBot 1.0 qihoobot@qihoo.net)',
+        ]
+
+    def get_proxy(self):
+        r = requests.get('http://127.0.0.1:8000/?protocol=0&count=100&country=国内')
+        ip_ports = json.loads(r.text)
+        proxies = []
+        for ip_port in ip_ports:
+            ip = ip_port[0]
+            port = ip_port[1]
+            proxy = {
+                'http': 'http://%s:%s' % (ip, port),
+            }
+            proxies.append(proxy)
+        return choice(proxies)
+
+    def get_headers(self):
+        headers = []
+        for ua in self.USER_AGENT_LIST:
+            header = {
+                'User-Agent': ua,
+                'Referer': 'http://www.soueast-motor.com/content/index/12'
+            }
+            headers.append(header)
+        return choice(headers)
 
     def get_data(self):
         print('正在抓取'+self.name+'经销商信息。。。')
@@ -664,7 +700,93 @@ class BydSpider(DykmcSpider):
         return dlr_list
 
 
-class HondaSpider(DykmcSpider):   # 官网没有数据
+class SoueastSpider(DykmcSpider):   #  东南汽车
+
+    def prase_request(self):
+        r = requests.get(self.js_url, headers=self.get_headers(), proxies=self.get_proxy())
+        time.sleep(1)
+
+        html = etree.HTML(r.text)
+        # print(html.xpath('//select[@id="province"]/option/@value'))
+        dlr_list = []
+        provincelist = html.xpath('//select[@id="province"]/option/@value')
+        getcity_url = 'http://www.soueast-motor.com/content/getcityj'
+        getdlr_url = 'http://www.soueast-motor.com/content/shaixuan'
+        for p in provincelist:
+            postdata = { 'province':p}
+            # r = requests.post(getcity_url, postdata, headers=self.get_headers(), proxies=self.get_proxy())
+            for i in range(3):
+                try:
+                    r = requests.post(getcity_url, postdata, headers=self.get_headers(), proxies=self.get_proxy(),timeout=2.5)
+                    time.sleep(1)
+                    break
+                except Exception as e:
+                    print("fetch %s  failed!\n%s , retry %d" % (getcity_url, str(e), i))
+                    time.sleep(1)
+                    r = ''
+                    continue
+            if r == '':
+                continue
+            p1 = re.compile('value=(\w{2,5})')
+            citylist = p1.findall(r.text)
+            # html = etree.HTML(r.text)
+            # citylist = html.xpath('/')
+            # tree = ET.parse(r.text)
+            # print(tree.getroot())
+            print(citylist)
+            for c in citylist:
+                postdata = {
+                    'province' : p,
+                    'city' :c,
+                    'brandCode' : 0,
+                    'seriesCode' : 0
+                }
+                # r = requests.post(getdlr_url, postdata, headers=self.get_headers(), proxies=self.get_proxy())
+                for i in range(3):
+                    try:
+                        r = requests.post(getdlr_url, postdata, headers=self.get_headers(), proxies=self.get_proxy(), timeout=2.5)
+                        time.sleep(1)
+
+                        break
+                    except Exception as e:
+                        print("fetch %s  failed!\n%s , retry %d" % (getdlr_url, str(e), i))
+                        time.sleep(1)
+                        r = ''
+                        continue
+                if r == '':
+                    print('error',c)
+                    continue
+                data = json.loads(r.text)
+                for d in data:
+                    # print(data)
+                    dlr = {
+                        'name' : d[6],
+                        'photo': d[5],
+                        'addrese':d[4],
+                        '2name':d[3],
+                        'x':d[1],
+                        'y':d[0]
+                    }
+                    print(dlr)
+                    dlr_list.append(dlr)
+        return dlr_list
+
+
+    # def prase_data(self):
+    #     pass
+
+
+class JacSpider(DykmcSpider):   #  江淮汽车
+
+    def prase_request(self):
+        r = requests.get(self.js_url)
+
+
+    # def prase_data(self):
+    #     pass
+
+
+class Spider(DykmcSpider):   #  东风风行
 
     def prase_request(self):
         pass
