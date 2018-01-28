@@ -48,7 +48,9 @@ class DykmcSpider(object):
         for ua in self.USER_AGENT_LIST:
             header = {
                 'User-Agent': ua,
-                'Referer': 'http://www.soueast-motor.com/content/index/12'
+                # 'Referer': 'http://www.soueast-motor.com/content/index/12',
+                # 'Referer': 'http://www.jac.com.cn/jacweb/dealers/',
+                'Referer': self.js_url,
             }
             headers.append(header)
         return choice(headers)
@@ -107,12 +109,13 @@ class DykmcSpider(object):
         print('正在以CSV格式保存信息。。。')
         with open(os.path.join(os.getcwd(), 'data\\')+self.name+'.csv', 'w', encoding='gbk', newline='') as f:
             w = csv.writer(f)
-            if data[1].keys()[0] == 'ID':  # ID 不能放在CSV开头
-                title = data[1].keys()
-                title[0] = 's-ID'
-                w.writerow(title)
-            else:
-                w.writerow(data[1].keys())
+            # print(data[1].keys()[0])
+            # if data[1].keys()[0] == 'ID':  # ID 不能放在CSV开头
+            #     title = data[1].keys()
+            #     title[0] = 's-ID'
+            #     w.writerow(title)
+            # else:
+            #     w.writerow(data[1].keys())
             for item in data:
                 try:
                     w.writerow(item.values())  # 报错‘gbk’ 不能编译‘\xao’
@@ -780,19 +783,146 @@ class JacSpider(DykmcSpider):   #  江淮汽车
 
     def prase_request(self):
         r = requests.get(self.js_url)
+        # province_p = re.compile('shengArray = new Array\((.+?)\);')
+        # # print(province_p.findall(r.text))
+        # provincelist = [i for i in province_p.findall(r.text)[0].split(',')]
+        # for p in provincelist:
+        #     print(p.strip('\"'))
+        dlr_dict = {}
+        city_p1 = re.compile('cityArray\[\d{1,2}\] = new Array\((.+?)\)')
+        provincedict = {}
+        for p in city_p1.findall(r.text):
+            province, cs = p.split(',')
+            citylist = [c.strip('\"') for c in cs.split('|')]
+            provincedict[province.strip('\"')] = citylist
+        # print(provincedict)
+        brand_p = re.compile('if\(code==\'(\w{2,10})\'\)')
+        brandlist = brand_p.findall(r.text)[1:]
+        carmodel_P1 = re.compile('if\(code==\'\w{2,10}\'\)')
+        carmodel_P2 = re.compile('value=\'(\w{2,10})\'')
+        car_dict = {}
+        for brand, cms in zip(brandlist, carmodel_P1.split(r.text)[2:]):
+            car_dict[brand] = carmodel_P2.findall(cms)
+        # print(car_dict)
+        query_url = 'http://www.jac.com.cn/jacservice/searchdealers'
+        for p, cs in provincedict.items():
+            for c in cs:
+                for b, cms in car_dict.items():
+                    for cm in cms:
+                        params = {
+                            'city': c,
+                            'prince':p,
+                            'type': 3,
+                            'jacmodel':cm,
+                            'jacbrand': b,
+                        }
+                        r = requests.get(query_url, params=params, headers=self.get_headers())
 
-
-    # def prase_data(self):
-    #     pass
-
-
-class Spider(DykmcSpider):   #  东风风行
-
-    def prase_request(self):
-        pass
+                        data = json.loads(r.text)
+                        if len(data) == 0:
+                            continue
+                        for d in data:
+                            sid = d['Id']
+                            if sid in dlr_dict.keys():
+                                dlr_dict[sid]['brand'] = dlr_dict[sid]['brand']+'/'+b
+                                dlr_dict[sid]['carmodel'] = dlr_dict[sid]['carmodel']+'/'+cm
+                                print(dlr_dict[sid])
+                                continue
+                            dlr = {
+                                'sid':d['Id'],
+                                'name':d['DealerName'],
+                                'tel':d['Salestell'],
+                                'address':d['Addr'],
+                                'city':c,
+                                'province':p,
+                                'brand':b,
+                                'carmodel':cm
+                            }
+                            print(dlr)
+                            dlr_dict[d['Id']]=dlr
+                        time.sleep(2)
+        return dlr_dict
 
     def prase_data(self):
-        pass
+        dlr_list = []
+        data = self.get_data()
+        for v in data.values():
+            v['name'] = v['name'].replace('\xa0', '')
+            v['tel'] = v['tel'].replace('\xa0', '')
+            v['address'] = v['address'].replace('\xa0', '')
+        for dlr in data.values():
+            dlr_list.append(dlr)
+        return dlr_list
+
+
+class FxautoSpider(DykmcSpider):   #  东风风行
+
+    def prase_request(self):
+        dlr_dict = {}
+        query_url = 'http://www.fxauto.com.cn/index.php/buy_dealers'
+        tmp_url = 'http://www.fxauto.com.cn/index.php/buy_dealers?province=%E5%B9%BF%E4%B8%9C%E7%9C%81&city=%E5%B9%BF%E5%B7%9E%E5%B8%82&carid=7&search=ok'
+        r = requests.get(tmp_url)
+        province_p = re.compile('regionlist= (\[.+?);')
+        provincelist = json.loads(province_p.findall(r.text)[0])
+
+        html = etree.HTML(r.text)
+        cms = html.xpath('//select[@ name="cartype"]/option/text()')[1:]
+        cids = html.xpath('//select[@ name="cartype"]/option/@value')
+        cardict = {}
+        for cm, cid in zip(cms, cids):
+            cardict[cid]=cm
+        for item in provincelist:
+            p = item['province']
+            for cs in item['citylist']:
+                c = cs['city']
+                for cid,cm in cardict.items():
+                    params = {
+                        'province':p,
+                        'city':c,
+                        'carid':cid,
+                        'search':'ok',
+                    }
+                    r = requests.get(query_url, params=params, headers=self.get_headers(), )
+                    html = etree.HTML(r.text)
+                    tmp = html.xpath('//div[@class="dealer_list"]//li')
+                    if len(tmp) == 1:
+                        print(tmp[0].xpath('./text()'))
+                        continue
+                    for d in tmp:
+                        sid = re.compile('(\d+)').findall(d.xpath('.//a/@href')[0])[0]
+                        if sid in dlr_dict.keys():
+                            dlr_dict[sid]['carid'] = dlr_dict[sid]['carid']+'+'+cid
+                            dlr_dict[sid]['cartype'] = dlr_dict[sid]['cartype']+'+'+cm
+                            print(dlr_dict[sid])
+                            continue
+                        dlr = {
+                            'sid':re.compile('(\d+)').findall(d.xpath('.//a/@href')[0])[0],
+                            'name':d.xpath('.//a/text()')[0],
+                            # 'tel':d.xpath('./p[3]/span[2]/text()')[0],
+                            'address':d.xpath('./p[1]/text()')[0],
+                            'city':c,
+                            'province':p,
+                            'carid':cid,
+                            'cartype':cm,
+                        }
+                        try:
+                            dlr['tel'] = d.xpath('./p[3]/span[2]/text()')[0]
+                        except:
+                            pass
+                        print(dlr)
+                        dlr_dict[dlr['sid']]=dlr
+                time.sleep(5)
+        return dlr_dict
+
+    def prase_data(self):
+        dlr_list = []
+        data = self.get_data()
+        for v in data.values():
+            v['name'] = v['name'].replace('\xa0', '')
+            v['address'] = v['address'].replace('\xa0', '')
+        for dlr in data.values():
+            dlr_list.append(dlr)
+        return dlr_list
 
 
 if __name__ == '__main__':
