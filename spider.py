@@ -924,6 +924,91 @@ class FxautoSpider(DykmcSpider):   #  东风风行
             dlr_list.append(dlr)
         return dlr_list
 
+    
+class VenuciaSpider(DykmcSpider):  # 东风启辰
+
+    def prase_request(self):
+        dlr_dict = {}
+        query_url = 'https://www.venucia.com/Ajax/AjaxSupport.ashx'
+        params = {
+            'method' : 'SeriesForOnline',
+            'Brand' : 2,
+        }
+        tmp  = requests.get(query_url, params=params)
+        brandinfo = json.loads(tmp.text)
+        # print(brandinfo)
+
+        profilter = {
+            'method' : 'ProvinceFilter',
+            'Series' : '713F29AC-916E-41EB-88CC-55AD2041050A',
+            'Brand' : 2
+        }
+        cityfilter = {
+            'method': 'CityFilter',
+            'ProvinceID' : '4bbb4d40-fb29-4004-8938-ecc4d028caa4',
+            'Series': '713F29AC-916E-41EB-88CC-55AD2041050A',
+            'Brand': 2
+        }
+        dlrfilter = {
+            'method': 'LoadDealerData',
+            'brand': 2,
+            'selpro': '7a2e3784-e160-496c-bee3-453bf834f71d',
+            'selcity': 'eca0bb8d-10d7-4127-9381-13d3aa12fd13',
+            'selseries': '713F29AC-916E-41EB-88CC-55AD2041050A',
+        }
+        # headers = {
+        #     'Referer': 'https://www.venucia.com/buy/selection/find-dealer',
+        #
+        # }
+        # testurl = 'https://www.venucia.com/Ajax/AjaxSupport.ashx?method=LoadDealerData&brand=2&selpro=7a2e3784-e160-496c-bee3-453bf834f71d&selcity=eca0bb8d-10d7-4127-9381-13d3aa12fd13&selseries=713F29AC-916E-41EB-88CC-55AD2041050A'
+        # test = requests.post(query_url, data=dlrfilter)
+        # test1 = requests.post(testurl)
+        # print(test.text)
+        # print(test1.text)
+        # print(test.headers)
+        # print(test1.headers)
+        for brand in brandinfo[1:]:
+            profilter['Series'] =  brand['ItemID']
+            tmppro = requests.post(query_url, data=profilter)
+            prolist = json.loads(tmppro.text)
+            for pro in prolist:
+                cityfilter['Series'] = brand['ItemID']
+                cityfilter['ProvinceID'] = pro['ItemID']
+                tmpcity = requests.post(query_url, data=cityfilter)
+                citylist = json.loads(tmpcity.text)
+                # print()
+                for city in citylist:
+                    # dlrfilter['selcity'] = city['ItemID']
+                    # dlrfilter['selpro'] = pro['ItemID']
+                    # dlrfilter['selseries'] = brand['ItemID']
+                    # tmpdlr = requests.post(query_url, data=dlrfilter)
+                    tmp_url = 'https://www.venucia.com/Ajax/AjaxSupport.ashx?method=LoadDealerData&brand=2&selpro='\
+                                +pro['ItemID']+'&selcity='+city['ItemID']+'&selseries='+brand['ItemID']
+                    tmpdlr = requests.post(tmp_url)
+                    # print(tmpdlr.text)
+                    try:
+                        dlrdict = json.loads(tmpdlr.text)
+                        # print(dlrdict)
+                        for k, v in dlrdict.items():
+                            if 'brand' not in v.keys():
+                                v['brand']=''
+                            if k in dlr_dict.keys():
+                                v['brand'] = v['brand'] + '|' + brand['Name']
+                                print(k)
+                                continue
+                            v['province'] = pro['Name']
+                            v['city'] = city['Name']
+                            v['brand'] = brand['Name']
+                            dlr_dict[k] = v
+                            print(v)
+                        # time.sleep(1)
+                    except:
+                        pass
+        return dlr_dict
+
+    # def prase_data(self):
+    #     pass
+
 
 if __name__ == '__main__':
     dyk_url = 'http://www.dyk.com.cn/public/dyk/js/allDealersData.js'
