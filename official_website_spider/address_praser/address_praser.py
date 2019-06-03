@@ -38,7 +38,7 @@ def add_info(coordinate):
         return '','',''
 
 def address_praser(f):
-    data = pd.read_excel('../'+f)
+    data = pd.read_excel('../data/'+f)
     data = data.drop_duplicates(['编号','公司名称'])
     print('根据坐标添加地区信息')
     for i, co in zip(data.index, data['坐标']):
@@ -50,9 +50,9 @@ def address_praser(f):
 
 
 def main():
-    for f in os.listdir('../'):
-        if '.xlsx' in f:
-        # if '雪佛兰_20190530.xlsx' in f:
+    for f in os.listdir('../data'):
+        # if '.xlsx' in f:
+        if '一汽丰田_20190603.xlsx' in f:
             print('处理：', f)
             address_praser(f)
 

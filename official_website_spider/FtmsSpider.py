@@ -27,10 +27,14 @@ class FtmsSpider(DemoSpider):
             province = json.loads(bytes.decode(r.content))
             for province in province['data']:
                 # print(province)
-                r = self.prase_request('https://www.ftms.com.cn/website/Maintenance/getCity?cid=' + province['cid'])
+                r = requests.get('https://www.ftms.com.cn/website/Maintenance/getCity?cid=' + province['cid'])
                 for city in json.loads(bytes.decode(r.content))['data']:
-                    post_data = {"provinceid":  province['cid'], "cityid": city['cid'], "dealerName": "", "cityName": "", "provinceName": ""}
-                    r = requests.post('https://www.ftms.com.cn/website/Dealer/getDealer' , data=post_data)
+                    # print(city)
+                    post_data = {"cityid": city['cid'],"cityName": "",
+                                 "dealerName": "", "provinceid":  province['cid'], "provinceName": ""}
+                    r = requests.post('https://www.ftms.com.cn/website/Dealer/getDealer' , data=json.dumps(post_data))
+                    print(r.url)
+                    print(post_data)
                     for dlr in json.loads(bytes.decode(r.content))['data']['list']:
                         # print(dlr)
                         dealer = {
