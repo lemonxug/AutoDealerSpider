@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta id="viewport" name="viewport" content="width=750, user-scalable=no"/>
+	
+	<title>大众一家会员活动，会员权益，车友会_大众一家俱乐部官方网站</title>
+	<meta name="keywords" content="大众一家"/>
+	<meta name="description" content=""/>
+	
+	
+<script type="text/javascript" src="https://club-static.svw-volkswagen.com/club/pc/commons/js/core/header.js?ver=1104"></script>
+<script type="text/javascript">
+	if (nestjs.isMobile() && !nestjs.isPad()) {
+		location.href = "https://m.owner.svw-volkswagen.com/" + location.search + location.hash;
+	}
+</script>
+	
+	<script type="text/javascript">
+		var _meta_vps = screen.availWidth / 750;
+		var _meta_vpc = "width=750, user-scalable=no, initial-scale=" + _meta_vps;
+		_meta_vpc += ", maximum-scale=" + _meta_vps + ", minimum-scale=" + _meta_vps;
+		_meta_vpc += /android/i.test(navigator.userAgent || navigator.vendor) ? ", target-densitydpi=device-dpi" : "";
+		document.getElementById("viewport").setAttribute("content", _meta_vpc);
+	</script>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-title" content="大众一家"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+	
+<link rel="stylesheet" media="all" href="https://club-static.svw-volkswagen.com/club/pc/component/swiper/swiper.min.css?ver=1104"/>
+<link rel="stylesheet" media="all" href="https://club-static.svw-volkswagen.com/club/pc/css.min/index.min.css?ver=1104"/>
+
+
+<script type="text/javascript">
+(function(a, e, f, g, b, c, d) {
+	a.ClickiTrackerName = b;
+	a[b] = a[b] || function() {(a[b].queue = a[b].queue || []).push(arguments)};
+	a[b].start = +new Date; c = e.createElement(f); d = e.getElementsByTagName(f)[0];
+	c.async = 1; c.src = g; d.parentNode.insertBefore(c, d)
+})(window, document, 'script', '//stm-cdn.cn.miaozhen.com/clicki.min.js?v='+Math.round(new Date().getTime()/1000/300), 'stm_clicki');
+stm_clicki('create', 'dc-2750', 'auto');
+stm_clicki('set','dimension1', '大众一家');
+stm_clicki('send', 'pageview');
+// stm_clicki('del', 'dimension[0-9]{1,3}',true);
+</script>
+
+
+
+</head>
+<body>
+<div id="body-wrapper" class="page-map">
+	
+	<div id="content-wrapper">
+					<div class="page-empty section">页面不存在</div>
+			</div>
+
+	
+<div id="preloader" class="full-size">
+	<canvas class="no-select progress"></canvas>
+	<p class="percentage"><span class="number"></span>%</p>
+</div>
+	
+<div id="layer-share" class="overlayer">
+	<div class="full-size content"></div>
+</div>
+
+<div id="layer-alert" class="overlayer">
+	<div class="content">
+		<p class="msg"></p>
+		<div class="btn-ok"></div>
+	</div>
+</div>
+
+<div id="layer-follow1" class="overlayer layer-follow">
+	<div class="centered content">
+		<div  class="full-size bg-ct" style="background-image: url('https://club-static.svw-volkswagen.com/club/pc/images/follow/bg.png?ver=1104');" ></div>		
+		<p class="font-title tip">即刻入会 了解更多</p>
+		<img  class="" title="" alt="" src="https://club-static.svw-volkswagen.com/club/pc/images/follow/qrcode.jpg?ver=1104" />		
+		<p class="font-title-zh tip tip2">如您已入会，请点击网页<br/>右下角+号内“会员中心”登录</p>
+		<div class="button btn-close"></div>
+	</div>
+</div>
+
+<div id="layer-follow2" class="overlayer layer-follow">
+	<div class="centered content">
+		<img  class="" title="" alt="" src="https://club-static.svw-volkswagen.com/club/pc/images/follow/qrcode2.jpg?ver=1104" />		
+		<p class="font-title tip">立即扫码关注<br/>上汽大众官方微信公众号</p>
+		<div class="button btn-close"></div>
+	</div>
+</div>
+
+<div id="layer-follow3" class="overlayer layer-follow">
+	<div class="centered content">
+		<div  class="full-size bg-ct" style="background-image: url('https://club-static.svw-volkswagen.com/club/pc/images/follow/bg.png?ver=1104');" ></div>		<img  class="" title="" alt="" src="https://club-static.svw-volkswagen.com/club/pc/images/follow/qrcode3.jpg?ver=1104" />		
+		<p class="font-title tip">扫码绑定大众一家会员<br/>查询卡券及积分明细</p>
+		<div class="button btn-close"></div>
+	</div>
+</div>
+	
+	
+<div id="menu" class="overlayer">
+	<div class="full-size bg"></div>
+	
+	<div class="content-wrapper">
+		<div class="button btn-close"></div>
+		
+		<div class="column font-title col-main">
+			<a class="item" href="/member/" data-track-event="导航;点击;会员权益">会员权益</a>
+			<a class="item" href="/owner/" data-track-event="导航;点击;车主活动">车主活动</a>
+			
+					<a class="item" href="/api/auth.php?original_url=https%3A%2F%2Fclub.svw-volkswagen.com%2Fmap%2Flatlng.xml" data-track-event="导航;点击;会员登录">会员中心</a>
+					
+			<a class="item" target="_blank" href="https://www.mysvw.com/campaign/bkcp" data-track-event="导航;点击;积分兑换">积分兑换</a>
+			<a class="item" target="_blank" href="https://bbs.svw-volkswagen.com/forum.php" data-track-event="导航;点击;车主社区">车主社区</a>
+		</div>
+	</div>
+</div>
+	
+<div id="shortcut">
+	<div class="wrap">
+		<div class="item money" data-track-event="工具栏;点击;我的钱包">
+			<span class="button"></span><span class="label">我的钱包</span>
+		</div>
+		
+		<a class="item point" target="_blank" href="https://www.mysvw.com/campaign/bkcp" data-track-event="工具栏;点击;积分兑换">
+			<span class="button"></span><span class="label">积分兑换</span>
+		</a>
+		
+		<a class="item owner" href="/owner/" data-track-event="工具栏;点击;车主活动">
+			<span class="button"></span><span class="label">车主活动</span>
+		</a>
+		
+		<a class="item community" target="_blank" href="https://bbs.svw-volkswagen.com/forum.php" data-track-event="工具栏;点击;车主社区">
+			<span class="button"></span><span class="label">车主社区</span>
+		</a>
+		
+		<a class="item member" href="/api/auth.php?original_url=https%3A%2F%2Fclub.svw-volkswagen.com%2Fmap%2Flatlng.xml" data-track-event="工具栏;点击;会员登录">
+			<span class="button"></span><span class="label">会员中心</span>
+		</a>
+		
+		<div class="item btn-toggle" data-track-event="工具栏;点击;展开">
+			<span class="button"></span>
+		</div>
+	</div>
+</div>
+	
+	
+<div id="header" data-style="white" 
+	class="full-width no-select white">
+	<div class="full-width bg"></div>
+	
+	<div class="full-width line-wrap">
+		<div class="bgi line-left"></div>
+		<div class="bgi line-right"></div>
+		<a class="centered bgi logo" target="_blank" href="https://www.svw-volkswagen.com/" data-track-event="页头;点击;大众"></a>
+	</div>
+	
+	<div class="full-width main-wrap">
+		<div class="centered-v navi-path"><a target="_blank" href="https://www.svw-volkswagen.com">首页</a> / <a href="/">大众一家</a></div>
+		<div class="centered-v bgi btn-menu" data-track-event="页头;点击;导航"></div>
+		<a class="centered-v bgi search" href="/search/" data-track-event="页头;点击;搜索"></a>
+		<a class="centered-v bgi saic" target="_blank" href="https://www.svw-volkswagen.com/" data-track-event="页头;点击;上汽大众"></a>
+	</div>
+</div>
+	
+<div id="footer" class="clear-after font-title-zh">
+	<div class="column col-1">
+		<a href="/member/" data-track-event="页脚;点击;会员权益">会员权益</a>
+		<a href="/owner/" data-track-event="页脚;点击;车主活动">车主活动</a>
+		
+					<a href="/api/auth.php?original_url=https%3A%2F%2Fclub.svw-volkswagen.com%2Fmap%2Flatlng.xml" data-track-event="页脚;点击;会员登录">会员中心</a>
+			</div>
+	
+	<div class="column col-2">
+		<a target="_blank" href="https://bbs.svw-volkswagen.com/forum.php" data-track-event="页脚;点击;车主社区">车主社区</a>
+		<a target="_blank" href="https://www.mysvw.com/campaign/bkcp" data-track-event="页脚;点击;积分兑换">积分兑换</a>
+	</div>
+	
+	<div class="column col-3">
+		<a href="/" data-track-event="页脚;点击;大众一家">大众一家</a>
+		<a target="_blank" href="https://www.mysvw.com/" data-track-event="页脚;点击;自营商城">自营商城</a>
+		<a target="_blank" href="https://www.svwuc.com/" data-track-event="页脚;点击;官方认证二手车">官方认证二手车</a>
+		<a target="_blank" href="https://techcare.svw-volkswagen.com/" data-track-event="页脚;点击;售后服务">售后服务</a>
+	</div>
+	
+	<div class="column col-4">
+		<a target="_blank" href="https://m.weibo.cn/u/1881301247" data-track-event="页脚;点击;关注微博">关注微博</a>
+		<span class="slink wechat" data-track-event="页脚;点击;关注微信">关注微信</span>
+	</div>
+	
+	<div class="clear"></div>
+	<div class="icp">
+		<a target="_blank" href="http://sh.beian.miit.gov.cn/" data-track-event="">沪ICP备08007566号</a>
+		<span class="sep">|</span>
+		
+		<a target="_self" href="javascript:void(0)" data-track-event="">经营许可证编号：合字B2-20190024</a>
+		<span class="sep">|</span>
+		
+		<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011402001376" data-track-event="">沪公网安备31011402001376号</a>
+		<span class="sep">|</span>
+		
+		<a target="_blank" href="https://brand.svw-volkswagen.com/legal/contact" data-track-event="页脚;点击;联系我们">联系我们</a>
+		<span class="sep">|</span>
+		
+		<a target="_blank" href="https://brand.svw-volkswagen.com/legal/private" data-track-event="页脚;点击;隐私政策">隐私政策</a>
+		<span class="sep">|</span>
+		
+		<a target="_blank" href="https://brand.svw-volkswagen.com/legal/legal" data-track-event="页脚;点击;法律申明">法律申明</a>
+	</div>
+	
+	<div class="rights">
+		网站内容若出现以下情况（包括但不限于）：国家相关法律法规的强制要求、技术进步、产品更新和零部件供货商调整等，
+		上汽大众汽车有限公司负责对车辆外观颜色、技术参数、配置装备和车型代号等信息作进一步修改和说明。
+	</div>
+</div>
+
+
+</div> <!-- end of body-wrapper. -->
+
+
+<script type="text/javascript">
+	
+	var environment = {
+		version: "1104",
+		baseUrl: "/",
+		pageName: "map",
+		resBaseUrl: "https://club-static.svw-volkswagen.com/club/pc/",
+		deployed: true,
+		isMobilePage: false,
+	};
+	
+	var require = {
+		deps: [], waitSeconds: 300,
+		urlArgs: "ver=1104",
+		baseUrl: "https://club-static.svw-volkswagen.com/club/pc/js/",
+		paths: {
+			"app": "core/app",
+			"page": "pages/index",
+			"nestjs": "../nestjs",
+			"domReady": "../commons/js/libs/require.domReady"
+		}
+	};
+
+</script>
+
+
+<script type="text/javascript">
+	
+	var wechatShare = {
+// 		url: "",
+// 		image: "",
+// 		friendTitle: "",
+// 		timelineTitle: "",
+// 		friendDescription: "",
+	};
+	
+	var wechatConfig = {
+		appId: "",
+		timestamp: 0,
+		nonceStr: "",
+		signature: "",
+	};
+	
+</script>
+
+<script type="text/javascript" src="https://club-static.svw-volkswagen.com/club/pc/commons/js/wechat/jweixin-1.3.2.js?ver=1104"></script>
+<script type="text/javascript" src="https://club-static.svw-volkswagen.com/club/pc/commons/js/core/foundations.js?ver=1104"></script>
+<script type="text/javascript" src="https://club-static.svw-volkswagen.com/club/pc/commons/js/libs/TweenMax.min.js?ver=1104"></script>
+
+<script type="text/javascript" data-main="../js.min/index.min" 
+	src="https://club-static.svw-volkswagen.com/club/pc/commons/js/libs/require-2.1.11.min.js?ver=1104"></script>
+</body></html>
