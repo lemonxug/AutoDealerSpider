@@ -70,7 +70,7 @@ class AddressPraser(object):
 
     def __init__(self):
         self.s = requests.Session()
-        self.ak = 'ycOGlKcy6nqzLuLuI36sn7sSZRToulkZ'
+        self.ak = '****'
         self.translate_api = 'http://api.map.baidu.com/geoconv/v1/?coords={}&from=5&to=6&ak={}'
         self.poi_api = 'http://api.map.baidu.com/?qt=rgc&x={}&y={}&dis_poi=100&poi_num=10&' \
                   'latest_admin=1&ak={}'
